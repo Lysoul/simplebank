@@ -5,7 +5,7 @@
 package mocks
 
 import (
-	api "assignments/simplebank/accounts/api"
+	accounts "assignments/simplebank/accounts/api"
 	context "context"
 	reflect "reflect"
 
@@ -36,10 +36,10 @@ func (m *MockStore) EXPECT() *MockStoreMockRecorder {
 }
 
 // CreateAccount mocks base method.
-func (m *MockStore) CreateAccount(ctx context.Context, owner string, balance int64, currency string) (*api.Account, error) {
+func (m *MockStore) CreateAccount(ctx context.Context, owner string, balance int64, currency string) (*accounts.Account, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateAccount", ctx, owner, balance, currency)
-	ret0, _ := ret[0].(*api.Account)
+	ret0, _ := ret[0].(*accounts.Account)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -65,10 +65,10 @@ func (mr *MockStoreMockRecorder) DeleteAccount(ctx, id interface{}) *gomock.Call
 }
 
 // GetAccount mocks base method.
-func (m *MockStore) GetAccount(ctx context.Context, id int64) (*api.Account, error) {
+func (m *MockStore) GetAccount(ctx context.Context, id int64) (*accounts.Account, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAccount", ctx, id)
-	ret0, _ := ret[0].(*api.Account)
+	ret0, _ := ret[0].(*accounts.Account)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -80,10 +80,10 @@ func (mr *MockStoreMockRecorder) GetAccount(ctx, id interface{}) *gomock.Call {
 }
 
 // ListAccounts mocks base method.
-func (m *MockStore) ListAccounts(ctx context.Context) ([]*api.Account, error) {
+func (m *MockStore) ListAccounts(ctx context.Context) ([]*accounts.Account, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListAccounts", ctx)
-	ret0, _ := ret[0].([]*api.Account)
+	ret0, _ := ret[0].([]*accounts.Account)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -92,4 +92,19 @@ func (m *MockStore) ListAccounts(ctx context.Context) ([]*api.Account, error) {
 func (mr *MockStoreMockRecorder) ListAccounts(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListAccounts", reflect.TypeOf((*MockStore)(nil).ListAccounts), ctx)
+}
+
+// TransferTx mocks base method.
+func (m *MockStore) TransferTx(ctx context.Context, fromAccountID, toAccountID, amount int64) (*accounts.Transfer, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "TransferTx", ctx, fromAccountID, toAccountID, amount)
+	ret0, _ := ret[0].(*accounts.Transfer)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// TransferTx indicates an expected call of TransferTx.
+func (mr *MockStoreMockRecorder) TransferTx(ctx, fromAccountID, toAccountID, amount interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TransferTx", reflect.TypeOf((*MockStore)(nil).TransferTx), ctx, fromAccountID, toAccountID, amount)
 }

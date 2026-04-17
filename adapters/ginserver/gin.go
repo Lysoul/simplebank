@@ -17,10 +17,6 @@ import (
 	// "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 )
 
-const (
-	xRequestIDKey = "X-Request-ID"
-)
-
 // we could have a stuct with these things attached to it
 // but whats the point...
 //

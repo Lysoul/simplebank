@@ -63,7 +63,7 @@ func (s *EtagSuite) TestEtagExists() {
 	s.Equal(http.StatusOK, res.StatusCode)
 
 	h := sha1.New()
-	h.Write(testStrBytes)
+	_, _ = h.Write(testStrBytes)
 
 	s.Equal(fmt.Sprintf("\"%v-%v\"", len(testStrBytes), hex.EncodeToString(h.Sum(nil))), res.Header.Get(headers.ETag))
 }
@@ -88,11 +88,11 @@ func TestEtag(t *testing.T) {
 func emptyHandlerFunc(res http.ResponseWriter, req *http.Request) {
 	res.WriteHeader(http.StatusNoContent)
 
-	res.Write(nil)
+	_, _ = res.Write(nil)
 }
 
 func handlerFunc(res http.ResponseWriter, req *http.Request) {
 	res.WriteHeader(http.StatusOK)
 
-	res.Write(testStrBytes)
+	_, _ = res.Write(testStrBytes)
 }

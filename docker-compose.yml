@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: simplebank_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: simplebank
+      POSTGRES_USER: simplebank_user
+      POSTGRES_PASSWORD: simplebank_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U simplebank_user -d simplebank"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: simplebank_app
+    restart: unless-stopped
+    ports:
+      - "3002:3000"
+    environment:
+      POSTGRES_URL: postgres://simplebank_user:simplebank_password@db:5432/simplebank?sslmode=disable
+      HTTP_PORT: 3000
+      HTTP_PATH_PREFIX: /simplebank
+      POSTGRES_MIGRATE: "true"
+      HTTP_MODE: release
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/simplebank/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  postgres_data:
