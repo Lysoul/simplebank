@@ -1,0 +1,12 @@
+# DEV - commnet local and uncomment this for dev
+@base_url=http://localhost:3002/simplebank
+
+### Create a new account
+POST {{base_url}}/accounts HTTP/1.1
+Content-Type: application/json
+
+{
+  "owner": "Bob3",
+  "balance": 2000,
+  "currency": "SGD"
+}
